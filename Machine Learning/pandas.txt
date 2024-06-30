@@ -1,0 +1,86 @@
+import pandas as pd
+
+    `&` element wise `and` operation
+    `|` element wise `or` operation
+
+data frame:
+    columns: sequence of arrays of identical length
+    rows:   entries in differenct arrays can be combined to form a row
+
+
+
+
+pd
+    .DataFrame(data, index, columns, dtype, copy)           -> pd.core.frame.DataFrame
+            2D, size-mutable, potentially hetrogeneous tabular datastructre also containes labeled axes and can be thought of as dict-like container for Series objects    
+        
+        df = pd.DataFrame(data = dict_like)
+        df = pd.DataFrame(data = array_like_object, columns = list_of_col_names)                            # arrays can be multidientional
+        
+        Indexing:
+                df.column_name              access columns
+                df["col_name"]              returns pd.core.series.Series
+                df[["mpg", "horsepower"]]   DataFrame with corresponding set of columns
+                df[:3]              [0,3) subset of rows 
+                
+                Boolean Index:
+                    idx_80 = df['year'] > 80    -> .Series of index True/Flase   
+                    df[idx_80]                  subset of rows with year greater 80
+                Methods:
+                    .loc    boolean and name based  [row, col]          df.loc[lambda data: data['year'] > 80, ['weight', 'origin']] OR df.loc[df['year'] > 80, ['weight', 'origin']]
+                            can mix it with lamda functions             Auto.loc[lambda df: (df['year']) > 80 & (df['mpg'] > 30), ['weight', 'origin']]
+                                                                        Auto_re.loc[lambda df: (df['displacement'] < 300) & (df.index.str.contains('ford') | df.index.str.contains('datsun')), ['weight', 'origin']]
+                    .iloc   integer based   [row, col]
+        Attributes:
+
+                .shape            (row, col)
+                .columns          columns names. returns .Index object
+                .index            default -> rows labled using integers
+
+        Methods:
+                .set_index("col_name")    re-name rows using contents of given column and can access rows of df by 'col_name' using loc[] method
+                .loc[]                    access rows, cols by index name (single, list, slice) or boolean array                                    -> .loc[idx_80, ['mpg', 'cylinders']]
+                .iloc[]                   integer-location based indexing row, col (single, list, slice) or boolean array                                         -> .iloc[[3, 4], [0, 2, 4]]
+                
+                .dropna()                 remove rows with nan vals. returns new DataFrame if inplace not True
+                
+                .describe()               numberical summary of each column     df[['mpg', 'weight']].describe() or df['mpg'].describe()
+    .Series(data, index, dtype, name)
+            1D ndarray with axis labels
+            df.cylinders = pd.Series(Auto.cyclinder, dtype = 'category')
+
+        Attribute
+            .dtype      df.cyclinders.dtype     -> CategoricalDtype(categories=[3, 4, 5, 6, 8], ordered=False)
+    
+        .sum()          Auto["horsepower"].sum()
+
+    .Index(data, dtype)
+        immutable sequence used for indexing and alignment. index entries don't need to be unique
+        can be itterated over
+
+    
+    .read_csv(file_path, sep, delimiter, na_values)
+        if seperator, delimiter, null values encoded differently then put in keyword arguments. returns DataFrame or TextParser
+
+    .plotting
+        .scatter_matrix()
+                            create scatterplot matrix to visualize all pairwise relationships between columns
+                        pd.plotting.scatter_matrix(df)
+                        pd.plotting.scatter_matrix(Auto['mpg', 'displacement', 'weight'])       # pairplot for subset of columns
+
+
+
+
+Special Modules
+    DataFrame/Series.plot
+        .scatter()          returns Axes object     
+                        ax = df.plot.scatter('col1', 'col2')
+                        df.plot.scatter('col1', 'col2', ax = ax)        # fig, ax = plt.subplots()      
+                        ax.plot(df['col1'], df['col2'], 'o')
+        .boxplot()      
+                        df.boxplot('mpg', by = 'cylinders', ax = ax)     # df.cylinder = pd.Series(data = Auto.cylinders, dtype = 'categorical')
+        .hist()
+                        df.hist('col_name', color = 'red', bins = 12, ax = ax)
+    Index/Series.str        
+                    .str -> StringMethods. vectorized string functions for Series and Index.
+                df.index.str.contains('ford')

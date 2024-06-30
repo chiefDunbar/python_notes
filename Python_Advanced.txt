@@ -1,0 +1,427 @@
+Python Interpreter: Source code -> lexical analysis -> parsing (Abstract Syntax Tree) -> bytecode (.pyc, pycache) -> Python Virtual Machine (PVM), which executes the bytecode.
+
+separation of concerns; single responsibility principle; 
+dependency injection - provide any dependency required by an object from outside the object
+
+Imperative Programming: 
+	(sequence of commands executed in order). can be used umbrella term, covers procedural + oop 
+Procedural Programming: 
+	(grouped into procedures or sub-programs). some say procedural and imperative mean same thing
+Object-oriented Programming: 
+	(program and state sotred in objects defined in classes)
+		static traits , class variables, methods: 
+			state/behaviour shared by different instances. belong to class not unique to it's objects. accessed through the class itself not instance
+			declared without 'self'. outside any method/constructor -> accessible from anywhere in the class/outside.
+				ClassName.attribute_name
+			static methods: can call without creating instance of class. @classmethod, @staticmethod
+
+		attributes, data attributes, instance variables-> variables attached to object	
+			can be attached to objects even if not declared in class
+			can dynamically add attributes to instances of a class even if those attributes are not defined in the class itself.
+				self.balances
+				global attribute
+Declarative Programming:
+	emphasize logic of a program wihout explicitly specifying control flow/implementation details. focus on defining what should be accomplished, leaving the 'how' to underlying system/runtime. SQL, HTML, CSS. domain specific language
+
+
+class
+	structure, functionalities; blueprints of objects; defines variablese
+	(data + functionality)
+	type hints must be enclosed in quotation marks if referring to types not yet defined
+	classes are Objects too in python. the interpreter creates an object out of class description thus we can assign it to a variable, attach attributes to it, pass as a function parameter
+		another_variable = MyClass
+		My_Class.class_attribute = 'foo'
+		print(MyClass)	vs print(MyClass()) 
+		def some_function():
+			class Foo(object):
+				pass
+			return Foo		# retuns the class not just instance
+	
+	`type()` 
+		can create classes by taking description of class as parameters and returns a class
+		type(name, bases_classes, attrs)	# base_classes is tuple, attrs: dictionary containing attributes names and values
+			type('Foo', ('FooParent',), {'bar': True, 'echo_bar': echo_bar})	# echo_bar is a fucntion defined somewhere
+		this is what interpreter does when it reads `class` keyword
+	
+	`isinstance()`
+		check if object belongs to specific class or sub-class
+			isinstance(object, classinfo)		# isinstance(x, int)
+	
+	metaclasses
+
+object 
+	independent whole of related data, any value internally is handled as object
+	value stored in a variable is a reference to an object. data stored within the object in memory.
+	no primitive types; objects are of basic data types are immutable (can't be changed in memory). value changed -> reference replaced. 
+	some (integer, floats, tuples, stirngs) are immutable and changes create new objects with updated references
+		print(id(x))	# prints memory address of the object x points to
+
+methods
+	functions attached to objects
+	
+	self: 	
+		keyword referes to the object itself
+		used to refer to the features/ attributes of the object as an instance of the class4
+		attributes of object : (data attributes, functionality)s
+		When a method is called on an instance, Python automatically passes the instance as the first argument. By convention, this argument is named self.
+		obj = MyClass(10)
+		print(obj.get_value())  # Internally calls MyClass.get_value(obj)
+		method chaining:
+			return self -> object returs itself
+	
+	dunder methods: 
+		__str__(self): retrun snapshot of state of object in string format
+		__repr__():  returns a string that could recreate the object. technical representation of state of object. code for creating the object. -> Person('Anna', 25). for data structures like lists, python always uses the __repr__ method for the string representation of the contents
+		__init__():  constructor method -> create object of some class.  def __init__(self, balance, owner):
+		
+		bult-in
+			__method__ used for internal behaviours. never undergo name mangling
+			__doc__		display docstring
+			__name__	display name 
+		
+		overloading operators:	
+			use certain operator on instances of self-defined classes -> special method returns correct result of the operator
+			'>'	__gt__ 
+			'<'	__lt__ 
+			==	__eq__(self, another) 
+			!=	__ne__	
+			<= 	__le__
+			>= 	__ge__
+			+ __add__(self, another)	
+			- __sub__()
+			* __mul__
+			/ __truediv__	
+			// __floordiv()
+			
+			all this can be seen with dir() command -> list all the methods available for use on a given object
+	
+		Iterators:	
+			make classes itterable like lists, collections. (eg: BookShelf, StudentRegister)
+			__iter__(self)
+					iterator initialization method should return iterator object itself (refrence to the object itself) and is called once. 
+					iteration variable or variables (counter for index of the current item in the list) should be initialized here. 
+						def __iter__(self):
+							self.current = 1
+							return self
+			__next__(self)
+					returns the next item within the object/sequence and called for each iteration step. 
+					`StopIteration` event raised if all items traversed (automatically handled by Python, signals the code calling the iterator that it's over now)
+						def __next__(self):
+							if self.currect <= 5:
+								number = self.current
+								self.current += 1
+								return number
+							else:
+							raise StopIteration
+			built in
+				iter()	returns an iterator object		
+							my_iter = iter(my_list)
+				next()	also used in Generator Funcitons
+							while True:
+								try:
+									item = next(my_iter)
+								except StopIteration:
+									break
+
+Decorators
+	metaprogramming (code that manipulates other code). modify behaviour of functions and classes.
+	
+	Function Decorators:	`@`
+		modify or extend behaviour of functions. way to wrap functions adding functionality before/after execution without modifying its code
+		commonly used for Logging (log function calls and their arguments), Acess Control (restrict acces to function based on condition), Memoization (Caching results of expensive function calls to improve performance)
+		define decorator function (takes another function as argument)
+		define wrapper (inner) function that adds desired behaviour before and after calling func
+		decorator funciton returns the wrapper effectively replacing orignal funciton with wrapped version
+		apply the decorator using the `@name_of_decorator_function` above function you want to decorate
+			def my_decorator(func):
+				def wrapper(*args, **kwargs):
+					print("before")
+					result = func(*args, **kwargs)
+					print("after")
+					return result
+				return wrapper
+			@my_decorator
+			def greet(name):
+				print("Hello!, {name}")		# greet = my_decorator(greet)
+			greet("Alice")				# greet("Alice")
+		
+		`functools.wraps`
+			when decorator used. orignal metadata (docstring, name, annotation, module) is lost. so to preserve that it uses the functools.update_wrapper function to copy the metadata from the original function to the wrapper function.
+				import functools
+				def my_decorator(func):
+					@functools.wraps(func)
+					def wrapper(*args, **kwargs):
+						------------------
+			now we can use greet.__name__, greet.__doc__
+
+		Chaining Decorators
+			apply multiple decorators to single funciton by stacking them. applied from innermost (closest to function) to outermost.
+				@decorator1				# decorator1 applied to the result of decorator2 and thus it essentially becomes
+				@decorator2				# say_hello = decorator1(decorator2(say_hello))
+				def say_hello():			
+		
+		Decorators with Arguments
+			decorator factory (function takes arguments and returns a decorator (takes function and returns wrapper (adds extra behaviour)) -> extra level of function nesting 
+			control its decorator behaviour via arguments. (how many times decorated function should be called) or logging with different levels (debug, information)
+				def repeat(times):				# returns decorator
+    					def decorator(func):			# returns wrapper
+						def wrapper(*args, **kwargs):	# modifies behaviour
+            						for _ in range(times):
+                						result = func(*args, **kwargs)
+            						return result
+        					return wrapper
+    					return decorator
+				@repeat(3)
+				def greet(name):
+    
+	Class Decorators:
+		takes class as argument -> returns new class/ instance of class
+		modify, inject functionality/state into classes, automate repetitive tasks related to class definitions. add methods, logging, monitoring execution, validation, enforcemnt for class methods  
+			def class_decorator(cls):
+				class WrappedClass(cls):		# inherites the original class
+					def new_method(self):
+						return "New Method"
+					def original_method(self):
+						result = super().original_method()
+						return f"Modifiend result: {result}"
+			def add_methods(cls):						# without defining explicit wrapper 
+				cls.new_new_method = lambda self: "New method added."
+    					return cls
+			@class_decorator
+			@ add_methods
+			class Myclass:
+
+		singleton Pattern -> ensuring class has only one instance
+			def singleton(cls):
+				instances = {}
+				def get_instance(*args, **kwargs):
+					if cls not in instances:
+						instances[cls] = cls(*args, **kwargs)
+					return instances[cls]
+				return get_instance
+	Method Decorators:
+		can build custom decorators (need not be declared inside class) for methods as well
+		can be used for logging and profiling (frequency, duration of method calls), Authorization and Validation, Caching, Retrying Logic (auto retry methods that might fail due to transient errors)
+			def wrapper(self, *args, **kwargs)
+
+		built-in	
+			@classmethod:	first argument always cls ('cls' points to the class). access modify class state. can be called on the class itself or instance of class
+
+			@staticmethod:	no cls/self needed. behave like plain functions but belong to the class's namespace. 
+
+			@abstractmethod: part of `abc` module. define abstract methods (implemented in subclasses) withinn Abstract Base Classes (define common interface and can't be instantiated and inherit from ABC)
+				help in structuring code, clear contract for subclasses, enforced interface, can serve as documentation indicating what methods must be implemented
+					from abc import ABC, abstractmethod
+					class Shape(ABC):
+						@abstractmethod
+						def area(self):
+							pass
+
+			getter/setter: the follwing allows us to define variables as private but for the client they function as public variables. BUT we can now add value validation for these variables
+				@property:
+					getter method. must be introduced before the setter methodd. defines name of the attribute offerred to the client.
+					used for encapsulating instance variables. adding validation logic
+						def money(self):				-> now self.money = money calls the getter method (even inside the constructor). self.__money won't
+							return self.__money
+				@attribute_.setter: 
+					setter method for private data attibutes. adds new functionality to @property
+					using them we can access and set private attributes through methods but for the client nothing changes. wallet.money = 50, print(wallet.money)
+						@money.setter
+						def money(self, money):
+							if money >= 0:
+								self.__money = money
+				@attribute_.deleter
+					class Circle:
+						def radius(self):
+							del self._radius
+					del circle.radius
+				can create getter method even if there isn't an attribute of the same name in the class.
+			
+	
+									
+
+
+
+Polymorphism
+	method overriding (Runtime Polymorphism)
+	operator overloading
+	duck typing
+
+encapsulation
+	inner workings of object hidden from the client
+	client: code which creates object and uses it's methods
+	internal integrity of object: data only accessed/manipulated through methods
+	internal implementation of class can be changed at will without affecting the client
+	__ -> __attribute -> _className__attribute: hide attributes from clients to protect from invalid maniputlation. but not truly private
+	
+	name mangling: 
+		makes private variables harder to accesss but not truly private
+		self.__private_attribute -> self._SuperClass__private_attribute (this is how it can be accessed). python changes names of private attributes
+		single underscore -> protected attribute (can be accessed within subclasses)
+		double underscore -> private attribute (should not be accessed directly outside the class)
+
+	overriding: 
+		derived class has method with same name as the base class, derived verson overrides the orignal in the instances of the derived class
+		derived class can still call the overridden method in the base class.
+
+	python doesn't natively support method overloading. BUT can simulate it with default parameter values or variable lenght argument lists (*args, **kwargs)
+	
+inheritance 
+	avoid repetition/duplication of code/attributes in classes. many classes are quite simmilar. 
+	class can inherit traits (data, methods) of another class (unless they have been defined as private) can contain traits that are unique to it. (Person) -> Student, Teacher. (BookContainer) -> Bookshelf. reuse attributes data and methods (can be overriden as well)
+		class Student(Person):
+
+	super(): 
+		attributes of sub class identical to base class, no need to rewrite the constructor. simply call the constructor of the base class. 
+		any trait in the base class can be accessed from the derived class with the 'super()' function.
+		'self' argument is left out from the method call as Python adds it automatically. self.super().__init__()
+		let's you avoid reffering to the base class explicitly. and helps with multiple inheritance. MRO -> method resolution order?
+		it used to be 'super(ChildA, self).__init__()' in earlier Python -> super().__init__()
+			def __init__(self):
+				super().__init__() 
+		MRO (Method Resolution Order): order in which base classes are looked up when executing a method	
+	Multiple Inheritance:
+		class can inherit from multiple parent classes. Pitfall -> Diamond Problem
+association: 	
+	between objects relationship where objects are linked but can exist independently 
+	one-one, one-many, many-one, many-many
+
+compostion: 
+	one object contains and owns another object -> lifecycle dependency -> if while object is destroyed, part objects are also destroyed. contained (part) objects do not exist independently of container object
+	stronger from of association with a whole-part realtionship. Engine (part) of Car (whole)	
+	
+
+`is` -> is point to the same object in memory vs `==` is the object at location same content
+
+
+None: keyword represents empty object, reference to nothing
+
+scope: sections of program where variable name is visible
+
+namespace: names specifically available within a defined Python unit (class, function). keep names in different parts of the program separate. same name coexist in many different functions, classes, modules at the same time
+	space where variable names are mapped to objects. keep variable names distinct in different parts of the program
+
+
+
+
+Default Values: 
+	Pitfal -> The default values of parameters should never be instances of more complicated, mutable data structures, such as lists because def __init__(self, completed_courses = []) means that two different instances refer the same empty string.
+		avoid it by
+		 def __init__(self, name, completed_courses=None):
+        		self.name = name
+        		if completed_courses is None:
+            			self.completed_courses = []
+        		else:
+            			self.completed_courses = completed_courses
+
+
+recursion:	
+	defining something in terms of itself with stop condtion and changing parameter values
+
+Functions as Argument:	
+	funciton_name(): reference to return value
+	function_name:	reference to function
+		commonly used for sorted(), map(), filter() keys
+	callable: for defining functions that can take functions as arguments
+		def taking_function(operation: callable):
+		return operation(10, 5)
+	taking_function(lambda x, y: x - y)	
+
+Nested Functions:	
+	functions within functions
+
+
+	
+Generator Function:
+		special class of iterators. create sequence of values overtime. produce just the next item in series when needed 
+		memory efficient -> don't store all the values in memory at once and return them like normal functions // normal function returns same value every time (given same arguments) vs generator remember current state, return next item in series
+		lazy evaluation. immutable data (once created it's values can't be modified -> new values are generated based on internal logic).
+		when generator runs out of values -> raises `StopIteration` exception. but generators may or may not have termination point and can keep generating values.
+
+	yield:	
+		marks out value which function returns. keeps track of function state, continues from that state next time it's called. produce a series of values over time, pausing and resuming
+		creates generator and saves function state. doesn't close the function like `return` 
+	next():
+		calls the `__next__()` method for generator class expilcitly
+		gets value and moves function to the next state 
+	
+		example:
+			def counter(max_value: int):
+				number = 0
+				while number <= max_value:
+					yeild number
+					number += 1
+			numbers = counter(5)			# returns generator object
+			for number in numbers:			# iterating using `__next__()` implicitly
+				print(number)
+			
+			can be combined with sum(), min(), max(), any(), all(), sorted(), zip() that consume iterables
+				gen = (i for i in range(1, 11))
+				total = sum(gen)
+				gen = (i > 0 for i in range(-5, 5))
+				result = any(gen)
+				
+	Generator Expression / Comprehension:
+		compact generator creation
+		(expression for item in terable if condition)
+			gen_exp = (x * x for x in range(10))
+			for num in gen_exp:
+				print(num)
+			next(gen_exp)
+			sum(gen_exp)
+
+Functional Programming:
+	praradigm avoids changes in program state as much as possile. variables avoided -> chains of function calls. lambda expressions, types of comprehensions -> process data without storing it in variables so state of program doesn't change. don't store named reference to lambda expression anywere
+	functions first-class citizens: can be assigned to variables, passed as arguments to other functions, returned as values from other functions), 
+	higher-order functions: take other functions as arguments, return functions asa results)
+	pure functions:	given same input, produce same output, no side effects, don't modify or rely on external state, isolate computation from outside world. easier to test, debug, parallelize
+	immutable data: encourages creation of new data structures through transformations
+	recursion: preffered over iterative loops. encourages function composition
+	emphasizes declarative programming; lazy evaluation: expressions not evaluated until their value is actually needed (generators)
+	
+	Lambda Expressions:	
+			lambda <parameters> : <expression>
+		small, anonymous functions, created, discarded as they are needed 
+			list_.sort(key = lambda item: item[1])
+	
+	comprehensions:
+		effeciently creating and manipulating collections. assignment of result (of operations on items of a list, dictionary or any iterable) to a new list. can also traverse object if the class is itterable
+		can be used with any iterable like object, list, dictionary, tuple, string
+			[<expression> for <item> in <series>]
+			[<expression> for <item> in <series> if <boolean expression>]	-> filtering
+			[<expression 1> if <condition> else <expression 2> for <item> in <series>]
+			{<key expression> : <value expression> for <item> in <series>}	-> returns dictionary
+			(expression for item in iterable if condition)			-> returns generator object
+
+	map():
+		executes some operation on each item in an iterable series.
+		map(<function>, <series>)	# integers = map(lambda x: int(x), str_list)
+		iterator ojbect of map type returned and can be converted into list	# list(integers) or iterated through a loop 	# for number in integers:
+		passing an iterator (map, generator) through a `for` loop "depletes" it -> once items have been traversed, nothing is left to go through.
+	
+	filter():
+		filters items with criterion function (passed as argument)
+		even_numbers = filter(lambda number: number % 2 == 0, integers)
+	
+	reduce():
+		reduce items in a series into single value. starts wiht an operation and initial value (sum = 0), perfoms operation on each item in series so value changes at each step till all items processed -> resulting value retured
+		reduce(function, iterable[, initializer])
+			from functools import reduce
+				sum = reduce(lambda reduced_sum, item: reduced_sum + item, my_list, 0)		# takes function, series, initial value
+				def sum_helper(reduced_sum, item):
+					return reduced_sum + item
+				sum = reduce(sum_helper, my_list, 0)		# 
+		if initial value is not given, it takes first item in series as initial value and recduces from second item. BUT if items in series different type that recduced result (object vs int). initial value mandatory
+		applies a binary function (takes two arguments) cumulatively to items of iterable. first item helper/result, second item series item
+
+
+docstrings:
+	""" """, ''' '''
+	documentation for funcitons, classes, methods written just beelow their defenition. say what they do (not how they do it).
+	can be accessed using help() or thing.__doc__
+
+
+
+	
+	
+	

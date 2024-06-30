@@ -1,0 +1,233 @@
+# References:
+# Official Matplotlib Documentation: https://matplotlib.org/stable/contents.html
+# Pyplot Tutorial: https://matplotlib.org/stable/tutorials/introductory/pyplot.html
+# Comprehensive Guide to Matplotlib: https://realpython.com/python-matplotlib-guide/
+matplotlib.org/stable/gallery
+
+plot:   figure and one (or more) axes
+    fig : blank canvas on which to display plots. entire plotting window
+        `.Figure`
+    ax:   information about each plot, (x, y) axis lables, title, more
+        `matplotlib.axes.Axes`
+
+import matplotlib.pyplot as plt
+
+    plt
+        .figure
+            # Creates a new figure.
+            fig = plt.figure()
+            # Example:
+            # fig = plt.figure(figsize=(8, 6))
+        .axes
+            # Returns the current axes (if none exist, it will create one).
+            axes = plt.gca()
+            # Example:
+            # ax = plt.axes()
+        .subplot
+            # Adds a subplot to the current figure.
+            ax = plt.subplot(111)
+            # Example:
+            # ax1 = plt.subplot(221)  # upper left
+            # ax2 = plt.subplot(222)  # upper right
+        .subplot_mosaic()
+            # Creates a mosaic layout of subplots.
+            fig, axd = plt.subplot_mosaic([["left", "right"]])
+            # Example:
+            # fig, axd = plt.subplot_mosaic([['top', 'top'], ['bottom_left', 'bottom_right']])
+        .subplots(nrows, ncols, figsize=(size_tuple), sharex=False, sharey=False)
+            # A utility wrapper. Returns tuple of figure, (array of) axes objects.
+            fig, axs = plt.subplots()
+            # Example:
+            # fig, axs = plt.subplots(2, 2, figsize=(10, 8), sharex=True, sharey=True)
+        .show()
+            # Displays the current figure.
+            plt.show()
+        .xlim(left=None, right=None)
+            # Sets or returns the current x-axis limits.
+            plt.xlim(0, 10)
+            # Example:
+            # plt.xlim(0, 5)
+        .ylim(bottom=None, top=None)
+            # Sets or returns the current y-axis limits.
+            plt.ylim(0, 10)
+            # Example:
+            # plt.ylim(0, 20)
+        .xlabel(s, fontdict=None, labelpad=None, **kwargs)
+            # Sets the label for the x-axis.
+            plt.xlabel("X-axis Label")
+        .ylabel(s, fontdict=None, labelpad=None, **kwargs)
+            # Sets the label for the y-axis.
+            plt.ylabel("Y-axis Label")
+        .title(s, fontdict=None, loc=None, pad=None, **kwargs)
+            # Sets a title for the axes.
+            plt.title("Title")
+        .grid(b=None, which='major', axis='both', **kwargs)
+            # Configure the grid lines.
+            plt.grid(True)
+        .legend(*args, **kwargs)
+            # Places a legend on the axes.
+            plt.legend(["Label 1", "Label 2"])
+        .text(x, y, s, fontdict=None, **kwargs)
+            # Adds text at an arbitrary location on the axes.
+            plt.text(1, 1, "Text")
+        .annotate(s, xy, *args, **kwargs)
+            # Adds an annotation, with an optional arrow.
+            plt.annotate("Annotation", xy=(1, 1), xytext=(2, 2),
+                         arrowprops=dict(facecolor='black', shrink=0.05))
+
+import matplotlib.figure 
+    # Top level container for all the plot elements.
+
+    fig  
+        .subplots()
+            # Creates a figure and a set of subplots.
+            fig, axs = fig.subplots(2, 2)
+        .add_subplot()
+            # Adds a subplot to the figure.
+            ax = fig.add_subplot(111)
+        .tight_layout(pad=1.08, h_pad=None, w_pad=None, rect=None)
+            # Adjusts subplots to fit into figure area.
+            fig.tight_layout()
+        .savefig("file.type", dpi=100)
+            # Saves the figure to a file.
+            fig.savefig("plot.png", dpi=300)
+            # Example:
+            # fig.savefig("plot.pdf", bbox_inches='tight')
+        .set_size_inches(w, h) or ((w, h))     
+            # Sets the size of the figure in inches.
+            fig.set_size_inches(10, 6)
+        .get_size_inches()
+            # Gets the current size of the figure in inches.
+            size = fig.get_size_inches()
+        .set_figwidth(w)
+            # Sets the width of the figure.
+            fig.set_figwidth(10)
+        .set_figheight(h)
+            # Sets the height of the figure.
+            fig.set_figheight(6)
+
+import matplotlib.axes 
+    
+    # Axes object encapsulates all elements of individual (sub)plot in a figure.
+
+    ax      
+            # Created from plt or Figure.
+        Attributes
+            .figure
+                # Returns Figure object.
+                fig = ax.figure
+        Methods
+            .plot([x], y, [fmt])
+                # Returns list of Line2D objects.
+                # y vs x as. [fmt] - 'bo' for blue dots.
+                # y using x [0, N).
+                ax.plot([0, 1, 2], [3, 1, 4], 'bo')
+                ax.plot([1, 2, 3])
+                # Labeled data.
+                ax.plot('xlabel', 'ylabel', data=dict_or_np_array)
+                # DataFrame.
+                ax.plot(Auto['horsepower'], Auto['mpg'], 'o') 
+                Auto.plot.scatter('horsepower', 'mpg')
+            .scatter(x, y, marker=)
+                # Creates a scatter plot.
+                ax.scatter([1, 2, 3], [4, 5, 6], marker='o')
+            .bar(x, height, width=0.8, bottom=None, *, align='center', **kwargs)
+                # Creates a bar plot.
+                ax.bar([1, 2, 3], [3, 2, 5])
+            .barh(y, width, height=0.8, left=None, *, align='center', **kwargs)
+                # Creates a horizontal bar plot.
+                ax.barh([1, 2, 3], [3, 2, 5])
+            .boxplot(data)
+                # Creates a box plot.
+                ax.boxplot(data)
+            .hist(x, bins=None, range=None, density=False, weights=None, **kwargs)
+                # Creates a histogram.
+                ax.hist(data)
+            .pie(x, explode=None, labels=None, colors=None, autopct=None, **kwargs)
+                # Creates a pie chart.
+                ax.pie([10, 20, 30], labels=["A", "B", "C"])
+            .contour(x, y, z)
+                # Creates a contour plot.
+                ax.contour(X, Y, Z)
+            .imshow(z)
+                # Displays data as an image (heatmap). Color-coded plot, colors depend on z value.
+                ax.imshow(data, cmap='hot')
+            .step(x, y, *args, **kwargs)
+                # Creates a step plot.
+                ax.step([1, 2, 3], [3, 2, 5])
+            .errorbar(x, y, yerr=None, xerr=None, fmt='', **kwargs)
+                # Creates an error bar plot.
+                ax.errorbar([1, 2, 3], [3, 2, 5], yerr=[0.1, 0.2, 0.1], fmt='o')
+
+            .set_xlabel("")
+                # Sets the x-axis label.
+                ax.set_xlabel("X-axis Label")
+            .set_ylabel("")
+                # Sets the y-axis label.
+                ax.set_ylabel("Y-axis Label")
+            .set_title("")
+                # Sets the title of the axes.
+                ax.set_title("Title")
+
+            .get_xlim()
+                # Returns the x-axis view limits.
+                limits = ax.get_xlim()
+            .set_xlim(left, right) or ((left, right))
+                # Sets the x-axis view limits.
+                ax.set_xlim(0, 10)
+            .get_ylim()
+                # Returns the y-axis view limits.
+                limits = ax.get_ylim()
+            .set_ylim(bottom, top) or ((bottom, top))
+                # Sets the y-axis view limits.
+                ax.set_ylim(0, 10)
+            .grid(b=None, which='major', axis='both', **kwargs)
+                # Configure the grid lines.
+                ax.grid(True)
+            .legend(*args, **kwargs)
+                # Places a legend on the axes.
+                ax.legend(["Label 1", "Label 2"])
+            .text(x, y, s, fontdict=None, **kwargs)
+                # Adds text at an arbitrary location on the axes.
+                ax.text(1, 1, "Text")
+            .annotate(s, xy, *args, **kwargs)
+                # Adds an annotation, with an optional arrow.
+                ax.annotate("Annotation", xy=(1, 1), xytext=(2, 2),
+                            arrowprops=dict(facecolor='black', shrink=0.05))
+
+
+
+
+
+import matplotlib.lines
+    classes for line objects (Line2D)
+
+import matplotlib.patches
+    classes for geometric shapes, rectangles, circles, polygons. (.Polygon)
+
+import matplotlib.text
+    classses for text objects (Text, TextBox)
+
+import matplotlib.legend
+    classes for legends, used to explain symbols, colours in plot
+
+import matplotlib.animation
+    classes for creating animations
+
+import matplotlib.widgets
+    classes for interactive widgets like buttons, sliders
+
+import matplotlib.backends
+    classes for rendering figures in different environments like GTK, Tkinter, MacOS
+
+import matplotlib.mlab
+    functions for numerical computations and data analysis
+
+import matplotlib.gridspec
+    classes for grid based figure layout
+
+import matplotlib.scale
+    classes for scaling data for plotting
+
+import matplotlib.dates
+    classes for handling dates, times in plots

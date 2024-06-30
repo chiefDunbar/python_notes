@@ -1,0 +1,12 @@
+import sklearn
+
+
+import sklearn
+    
+    .linear_model
+
+        .LogisticRegressionCV()
+            returns Object
+                clf = sklearn.linear_model.LogisticRegressionCV()
+                clf.fit(X, Y)
+                clf.predict(X)

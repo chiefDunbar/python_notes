@@ -1,0 +1,141 @@
+import argparse
+import sys
+import collections
+
+File Handling
+------------------------
+import os  # Operating system interface
+import shutil  # High-level file operations
+import glob  # Unix style pathname pattern expansion
+
+import csv  # CSV file reading and writing
+import json  # JSON encoding and decoding
+import xml.etree.ElementTree as ET  # XML parsing
+
+
+Networking
+--------------------
+import socket  # Low-level networking interface
+import paramiko  # SSH2 protocol for secure connections
+import smtplib  # Simple Mail Transfer Protocol for sending emails
+
+
+Testing
+--------------------
+import unittest
+imoprt pytest
+import pdb: 		
+	python debugger: breakpoint(): continue, help
+
+Web Scraping
+-------------------
+import scrapy
+import bs4
+import selenium
+import requests:
+import urlib:
+	urllib.request.urlopen
+
+
+Database Connectivity
+-------------------------
+import pymongo:
+import mysql.connector
+import psycopg2  
+import sqlite3
+
+Machine Learning
+-----------------
+import numpy as np  # Numerical operations
+import scipy  # Scientific computing
+import pandas as pd  # Data manipulation and analysis
+
+import matplotlib.pyplot as plt  # Plotting
+import seaborn as sns  # Statistical data visualization
+
+import sklearn  # Machine learning algorithms and tools
+
+import torch  # PyTorch for deep learning
+import tensorflow as tf  # TensorFlow for deep learning
+
+import cv2  # OpenCV for computer vision
+
+import nltk  # Natural Language Toolkit for NLP
+import spacy  # Industrial-strength NLP
+import unstructured  # Handling unstructured data
+import gensim  # Topic modeling and document similarity
+import transformers  # State-of-the-art NLP models
+import langchain  # Language models and applications
+
+import streamlit  # Creating web apps for data science
+
+
+Image and Video Processing
+-------------------------------------
+from PIL import Image  # Python Imaging Library for opening, manipulating, and saving images
+import imageio  # Library for reading and writing image data
+import moviepy.editor as mp  # Video editing with Python
+
+Web Apps
+-------------------
+import streamlit  # Creating web apps for data science
+import dash  # Analytical web applications with Python
+
+GUI Development
+------------------------
+import tkinter as tk  # Standard Python interface to the Tk GUI toolkit
+from PyQt5 import QtWidgets  # Set of Python bindings for Qt libraries
+import wx  # Cross-platform GUI toolkit
+
+Concurrent Programming
+----------------------------
+import threading  # Higher-level threading interface
+import multiprocessing  # Process-based parallelism
+import asyncio  # Asynchronous I/O, event loop, coroutines
+
+Cryptography
+------------------------
+import threading  # Higher-level threading interface
+import multiprocessing  # Process-based parallelism
+import asyncio  # Asynchronous I/O, event loop, coroutines
+
+IOT
+------------------------------------------------
+import RPi.GPIO as GPIO  # Raspberry Pi GPIO library
+import Adafruit_DHT  # Adafruit library for DHT sensors
+import paho.mqtt.client as mqtt  # MQTT protocol for IoT
+
+Web Development
+-----------------------------------------------
+import flask  # Lightweight WSGI web application framework
+import django  # High-level Python web framework
+from fastapi import FastAPI  # Modern, fast (high-performance) web framework for building APIs with Python 3.7+
+import bottle  # Simple, lightweight web framework
+
+from jinja2 import Template  # Template engine for Python
+import tornado.ioloop  # Scalable, non-blocking web server and web application framework
+import pyramid  # Small, fast, down-to-earth Python web framework
+
+import aiohttp  # Asynchronous HTTP client/server framework
+
+import web2py  # Full-stack framework for rapid development
+import cherrypy  # Object-oriented web framework
+import hug  # Embrace the APIs of the future. Hug aims to make developing APIs as simple as possible
+
+
+import graphql  # Python GraphQL implementation
+import graphene  # GraphQL framework for Python
+
+
+import plotly  # Interactive graphing library that works with Dash
+
+import starlette  # Lightweight ASGI framework/toolkit
+import sanic  # Async web framework that is highly scalable
+
+import uvicorn  # ASGI server for serving FastAPI and Starlette applications
+import gunicorn  # WSGI HTTP server for UNIX
+
+
+
+
+
