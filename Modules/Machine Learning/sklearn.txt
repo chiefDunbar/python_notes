@@ -1,0 +1,23 @@
+import sklearn
+
+
+import sklearn
+    
+    .linear_model
+
+        .Lasso()
+        .Ridge()
+        .LogisticRegressionCV()
+            returns Object
+                clf = sklearn.linear_model.LogisticRegressionCV()
+                clf.fit(X, Y)
+                clf.predict(X)
+
+    .preprocessing
+        .StandardScaler()
+            .fit_transform(X)
+    .pipeline 
+        .make_pipeline
+    .datasets
+        
+        .load_iris()

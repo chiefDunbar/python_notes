@@ -1,0 +1,32 @@
+import pygame:
+	pygame.init()				initializes modules
+	pygame.display.filp()			update contents of window
+	pygame.display.set_caption("Capiton")
+	= pygame.display.set_mode(size)		returns Surface object (screen the main window), size is tuple		window = pygame.display.set_mode(size)
+
+	= pygame.Surface(size):			Surface object represents image. 2D array of pixels that you can draw, manipulate, display
+		window.fill(color)			fill color (rgb tuple)
+		robot.get_width()/ .get_height()
+		window.bilt(image, position)		bit block transfer. block of pixels from one image is coppied directly to another. 
+	
+	= pygame.image.load(filepath)		returns Surface object, filepath							robot = pygame.image.load("robot.png")
+	
+	pygame.draw.rect(screen, color, (x, y, width, height), width)			# window = pygame.display.set_mode(-), # color = (r, g, b), # coordinates = (x1, y1, x2, y2)
+		   .circle(screen, color, center, radius, width)	# center = (x, y) , # radius = r
+		   .line(screen, color, start, end, width)		# start = (x1, y1), end = (x2, y2)
+	= pygame.font.SysFont("Arial", size)		returns `Font` object. 		# game_font = ----
+	= game_font.render("Moikka!", antialiasing_flag, color)		method of Font object that creates an image (Surface object)
+	= pygame.font.Font.render()
+
+	pygame.event:
+		pygame.event.get()			get event queue iterable			for event in pygame.event.get()
+		event_.type == 										pygame.QUIT, KEYDOWN, KEYPUP, MOUSEMOTION, MOUSEBUTTONDOWN, 
+		event_.key == 										pygame.K_LEFT, K_RIGHT, K_a, 
+		event_.button				mouse button
+		event_.pos[]				mouse position
+
+	= pygame.time.Clock()			returns Clock object, used to track time
+		clock.tick(fps)			used as frame rate limit. pause execution of game loop tom maintain desired FPS. each iteration it calculates the time elapsed since the last call to the function.
+	
+	pygame.quit()
+	pygame.QUIT				constant value for quiting

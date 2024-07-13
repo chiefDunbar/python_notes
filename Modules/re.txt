@@ -1,0 +1,50 @@
+import re	
+	define a collection of strings which follow certain rules. pattern matching, text processing
+	
+	
+	`|`	like `or`. called pipe character -> match alternate substrings like `or`. 
+			"911|112" -> 911 or 112
+	`[]`	like `or`. group of accepted characters. "[aeio]". are any of these present?
+	`-`	matching ranges of characters. 
+			"[0-68a-d]" -> 0 to 6, 8, a to d. all ranges are inclusive
+			"[1-3][0-9]" -> 1 to 3 followed by 0 to 9 meaning 10 to 39
+			"C-FSRO" -> C TO F, S, R, O
+	`*`	0 or more repetition
+			"A[BCDE]*Z" -> AZ, ADZ, ADEZ, ABCDZ, ABCDEZ, ADBCZ, ABCDEBCDEBCDEZ
+	`+`	1 or more repetition
+			"ba+b" -> bab, baab, baaaaaaaaaaab
+	`?`	0 or 1 repetition 	
+	`{m[, n]}`	matches from `m` to `n` (optional) repetitions 
+	`.`	wildcard character -> match any single character
+			"c...o" -> c-3po, cello
+	`^`	beginning of the string
+	`$`	end of string
+			"^[123]*$" -> 1221, 33333333333
+	`\`	for special characters reserved for regex syntax
+			"1\+" -> 1+	"^\*" -> *moi
+	`()`	group together as one
+			"(ab)+c" -> abc, ababc, ababababc
+			"^(jabba).*(hut)$" -> jabba the hut, jabba a hut
+	`\d`	any digits -> [0-9]
+	`\D`	non-digit
+	`\w`	word character -> [a-zA-Z0-9_]
+	`\W` 	non word character
+	`\s`	whitespace
+	`\S`	non whitespace character
+	
+	.compile(pattern, flags)	pattern -> re.Pattern object (used for matching using match() search(). for more efficiency
+						pattern = re.compile(r'\d+')	-> result = pattern.findall(string)
+	.match(pattern, string[, flags])		pattern matches at the beginning of string	returns re.Match object upon succesfull matches	
+	.search(pattern, string)	returns Match object or `None`. Match objects are always True
+						result = re.search(pattern, string) -> result.group() -> '123'
+	.findall(pattern, string)	returns list of all instances which match pattern
+	.finditer(pattern, string)	like above but returns iterator
+	.sub(pattern, replace, string)	replaces match in string with replace
+	.split(pattern, string)		splits by occurrences of pattern
+	
+	Flags:
+		change how regex pattern interpreted. can combine with bitwise OR |
+		re.IGNORECASE // re.I	-> case insensitive matching
+		re.MULTILINE //	re.M	-> ^, $ match start end of each line
+		re.DOTALL // re.S	-> . matches all characters including newline
+		re.VERBOSE // re.X	-> aloows to write more readable regex by ignoring whitespace

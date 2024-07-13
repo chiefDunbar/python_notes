@@ -1,67 +1,70 @@
-almost everything is a reference
-global frame: variables defined in the main function
-variable-> object
+Basics:
 
-Functions:
-	positional arguments vs keyword arguments
-	func?	for help -> print?
-
-pass: 	for empty blocks
-
-Modules:
-	from <module> import *: 	imports everything from the module
-	dir(<module>):			list out contents of module
+	almost everything is a reference
+	local vs global variables
+		local variable "masks" : A global variable cannot be changed directly from within another function.
+		global frame: variables defined in the main function
+		global   
+			global x -> x = 3
 	
+	Functions:
+		positional arguments vs keyword arguments
+		func?	for help -> print?
+		pass 	for empty blocks
+
+		Function as Argument:
+			sort():	products.sort(key = order_by_price)	# def order_by_price(item: tuple) -> return item[1]
+			this allows us to define the criteria for sorting
+
+			order_by_price() -> reference to return value
+			order_by_price   -> reference to function
+
 	__name__ : 
-		name of the function being executed 
-		"__main__" if program executed on its own 
-		if module imported to some other then same if name of the file
+			name of the function being executed 
+			"__main__" if program executed on its own 
+			if module imported to some other then same if name of the file
+
+	Conditonal:	
+			if item in collection 
+			a if [condition] else b 	# this can be nested as well
+
+	for:		
+			for -> else : if loop executed fully then else; if terminated in between then else not executed
+			zip():  returns zip object iterator of tuples
+			enumerate(): returns enumerate object iterator adds a counter to the collection passed	
+			in, range(); for item in collection; collection can't be changed when traversing through for loop
+			att for att in 
+			# for l in reversed(range(L - 1))
 	
-	pip:
-		pip intsall, pip uninstall, pip list, pip freeze
+	Packing
+		*args: 		variable number of position argumeents to a funciton. collects all into a tuple
+		**kwargs:	arbitrary keyword arguments. collects into a dictionary	
 
-sorted/sort(key, reverse); min/max(key) -> key: criteria for ordering. pass function as an argument
-
-Packing
-	*args: 		variable number of position argumeents to a funciton. collects all into a tuple
-	**kwargs:	arbitrary keyword arguments. collects into a dictionary	
-
-Unpacking: 
-		x, y, z = coordinates # some list or tuple 
-	`*` for Extended Unpacking
-			first, second, *other = numbers
-			first, *middle, last = numbers
-	Unpacking with Function Arguments:
-		when passing list/tuple to funciton `*` unpacks collection into individual positional arguments. 
-			def add (a, b, c)	->	add(*three_numbers)
-		simillarly keyword arguments can be unpacked
-			def info(name, age, city)	-> display_info(**some_dictionary)
-			greet(*args, **kwargs) -> args = ['Hello'], kwargs = {'name': 'Alice'}
-	
-
-
-Conditonal:	if item in collection 
-		a if [condition] else b 	# this can be nested as well
-
-
-for:		for -> else : if loop executed fully then else; if terminated in between then else not executed
-		zip():  returns zip object iterator of tuples
-		enumerate(): returns enumerate object iterator adds a counter to the collection passed	
-		in, range(); for item in collection; collection can't be changed when traversing through for loop
-		att for att in 
-		# for l in reversed(range(L - 1))
-
-slicing:	slice(3, 6) == [3, 6]
-		[::-1], [3: 7: 2], [6:2:-1], [:]
-
-print():
-		, between arguments, + for concatanation, sep='', end='\n', f-strings f'{number:.2f}', f"{name:15} centre {name:>15}"
+	Unpacking: 
+			x, y, z = coordinates # some list or tuple 
+		`*` for Extended Unpacking
+				first, second, *other = numbers
+				first, *middle, last = numbers
+		Unpacking with Function Arguments:
+			when passing list/tuple to funciton `*` unpacks collection into individual positional arguments. 
+				def add (a, b, c)	->	add(*three_numbers)
+			simillarly keyword arguments can be unpacked
+				def info(name, age, city)	-> display_info(**some_dictionary)
+				greet(*args, **kwargs) -> args = ['Hello'], kwargs = {'name': 'Alice'}
 
 Data Structures:
 
-	str(): 		"" immutable (int, bool, float)
-			len(), strip(), rstrip(), lstrip(), 
-			.find(), . contains(), , .count(), .replace(), .isupper(), .split(), 
+	sorted/.sort(key, reverse); 
+	min/max(key) -> key: 
+		criteria for ordering. pass function as an argument
+
+	slicing:	
+		slice(3, 6) == [3, 6]
+		[::-1], [3: 7: 2], [6:2:-1], [:]
+
+	str():	"",'' 
+			immutable (int, bool, float)
+			len(), .strip(), .rstrip(), .lstrip(), .find(), . contains(), .count(), .replace(), .isupper(), .split(), 
 			.join(): 	
 				string from a list containing strings, with a separating character 
 					sorted(strings, key = lambda word: "".join([c for c in word if c in "aeiou"]))
@@ -76,30 +79,59 @@ Data Structures:
 						print(template.format(col, np.isnan(D[col]).mean()))
 				
 	
-	list():	[] 	mutable. variable stores the reference to the list. when assigned to another -> the reference if copied; passed by reference
+	list():	[] 	
+			mutable. variable stores the reference to the list. when assigned to another -> the reference if copied; passed by reference
 			.append(), .insert(), .pop(), .count(), .remove(object_reference), del _list[index], clear(), in, .sort(), , sorted(), max(), min(), sum(), len(), multidim lists stored as rows m[i][j], id(), copy_list = list[:] (copy list, [:] selects all items); my_list[1:3] = [10, 20]
 			list1 + list2 -> concatanates lists
 			import copy -> copy.deepcopy()
 
-	dict(): {} 	hash table. key -> value. keys must be immutable (must be hasable)(list can't be keys). 
+	dict(): {} 	
+			hash table. key -> value. keys must be immutable (must be hasable)(list can't be keys). 
 			for key in dicitonary. for key, value in dictionary.items()
 			del dictionary[key], deleted = staff.pop['David', None]. staff.clear()
 	
-	tuple(): () 	immutable ordered collecttion. not needed when defining tuples -> numbers = 1, 2, 3; basically comma seprated values.  immutable so can use as keys
+	tuple(): () 	
+			immutable ordered collecttion. not needed when defining tuples -> numbers = 1, 2, 3; basically comma seprated values.  immutable so can use as keys
 			when returning multiple values -> function returns  a tuple of those values that can be assigned to multiple variables. EG: (min_value, max_value) = minmax(my_list)
 			dictionary.items() -> (key, values) tuples
 			list of tuples by default sorted by the first item
 			number1, number2 = number2, number1 , can be done because of tuples
 
-	set(): {}	unordered mutable collection of unique elements. 
+	set(): {}	
+			unordered mutable collection of unique elements. 
 			.add(), .remove(), in, `|` (union), `&` (intersection), `-` (difference), `^` (symmetric difference - elements present in either sets but not both)
 
-Function as Argument:
-	sort():	products.sort(key = order_by_price)	# def order_by_price(item: tuple) -> return item[1]
-	this allows us to define the criteria for sorting
 
-	order_by_price() -> reference to return value
-	order_by_price   -> reference to function
+
+Exception Handling:
+
+	try: 	code that might raise an exception
+	except:	executes if specific exception occurs 
+		here both exeptions are handeled seperately
+			except ZeroDivisionError as e:
+				print(f"Error occured: {e}")
+			except ValueError as e:
+				print(f"Invalid input! Please enter an integer.")
+	else:	executes if no exceptions occur in `try`
+	finally: always executes
+	raise:	exeption. also if used within except block without arguments -> raises current exception
+	raises:	function/ method raises exeption
+	Exception Class: can define custom exceptions by subclassing it
+
+	errors: 	syntax vs runtime: try , except, raise
+			ValueError -> float('1,23') value passed to a function invalid
+			TypeError -> len(10) value passed of wrong type len needs string/list
+			IndexError
+			ZeroDivisionError -> sum(my_list) / len(my_list)
+			FileNotFoundError -> accessing file which doesn't exist
+			io.UnsupportedOperation -> rying to perform an operation on a file which is not supported by the mode in which the file is opened
+			PermissionError -> program lacks necessary permision to access the file
+	
+			passing exceptions -> funciton causes an exception but not handled so passed on the previous stack location till reaches main function location.
+			raise an exception: makes debugging easier. when detecting invalid parameters. raise ValueError("The input was negative: " + str(n))
+
+
+
 
 
 File Handling:
@@ -134,10 +166,12 @@ File Handling:
 	import json:
 		json.dump(data, file)	# writing to JSON file
 		data = json.load(file)	# reading	
+	
 	import csv:
 		csv_reader = csv.reader(file)		# for row in csv_reader:
 		csv.writer(file).writewrows(data)
 		csv_reader = csv.DictReader(file)	# for row in csv_reader:
+		csv.DictWriter(file, fieldnames).writeheader().writerows(data)
 
 	import pandas as pd:
 		df = pd.read_excel('example.xlsx')
@@ -147,7 +181,6 @@ File Handling:
 		tree = ET.parse('example.xml')
 		root = tree.getroot()			# for child in root: print(child.tag, child.attrib)
 		
-		csv.DictWriter(file, fieldnames).writeheader().writerows(data)
 	with, as, open(), .read(), 'w',  'a', write(), (pass, .close()) -< can use to empty a file
 		with open("example.txt") as new_file: # new_file: file handle -> pointer to position in a file. once we reach the end we can't use it again. so therefore better to store contents in a variable
 			contents = new_file.read()
@@ -160,37 +193,6 @@ File Handling:
 
 		import csv; csv.reader(my_file, delimiter=';') -> returns lists
 		import json; courses = json.loads(my_file.read())
-
-Exception Handling:
-
-	try: 	code that might raise an exception
-	except:	executes if specific exception occurs 
-		here both exeptions are handeled seperately
-			except ZeroDivisionError as e:
-				print(f"Error occured: {e}")
-			except ValueError as e:
-				print(f"Invalid input! Please enter an integer.")
-	else:	executes if no exceptions occur in `try`
-	finally: always executes
-	raise:	exeption. also if used within except block without arguments -> raises current exception
-	raises:	function/ method raises exeption
-	Exception Class: can define custom exceptions by subclassing it
-
-	errors: 	syntax vs runtime: try , except, raise
-			ValueError -> float('1,23') value passed to a function invalid
-			TypeError -> len(10) value passed of wrong type len needs string/list
-			IndexError
-			ZeroDivisionError -> sum(my_list) / len(my_list)
-			FileNotFoundError -> accessing file which doesn't exist
-			io.UnsupportedOperation -> rying to perform an operation on a file which is not supported by the mode in which the file is opened
-			PermissionError -> program lacks necessary permision to access the file
-	
-			passing exceptions -> funciton causes an exception but not handled so passed on the previous stack location till reaches main function location.
-			raise an exception: makes debugging easier. when detecting invalid parameters. raise ValueError("The input was negative: " + str(n))
-
-variables: 	local vs global
-		"masks" : A global variable cannot be changed directly from within another function.
-		global :  global x -> x = 3
 
 
 	

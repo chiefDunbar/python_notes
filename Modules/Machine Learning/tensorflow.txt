@@ -1,0 +1,93 @@
+figures out backpropagation 
+tensorflow datasets are generators -> can't directly access contents without iterating
+    must create next(iter())
+
+
+import numpy as np 
+import tensorflow as tf
+
+
+
+
+
+
+tf
+    .__version__
+    .Tensor
+        data and information about the computational graph
+    .Variable(value, dtype)
+
+        w = tf.Variable(0, dtype = tf.float32)
+        cost = w ** 2 - 10 * w + 25
+    .constant()
+        X = tf.constant(np.random.randn(3, 1), name = "X")
+    .data
+        .Dataset
+            .from_tensor_slices()
+                x_train = tf.data.Dataset.from_tensor_slices(train_dataset['train_set_x'])
+                x_train.element_spec
+                x_train.map(normalize_func)
+            .zip()
+                dataset = tf.data.Dataset.zip((X_test, Y_test))
+                m = dataset.cardinality.numpy()
+                minibatches = dataset.batch(minibatch_size).prefetch(8)
+            .cardinality()
+    .keras
+        .optimizers
+            .Adam(0.1)
+                optimizer = tf.keras.optimizers.Adam(0.1)
+
+                .apply_gradients(zip(cost, trainable_variables))
+                .minimize(cost_fn, [w])
+
+            Example:
+                def training(x, w, optimizer):
+                    def cost_fn():
+                        cost = x[0] * w ** 2 + x[1] * w + x[2]
+                    for i in range(1000):
+                        optimizer.minimise(cost_fn, [w])         
+                    return w
+        .activations
+            .sigmoid()
+            .relu()
+        .losses
+            .categorical_crossentropy( y_true, y_pred, from_logits=False, label_smoothing=0.0, axis=-1)
+        .initializers
+            .GlorotNormal(seed)
+                truncated normal distribution centered on 0. stddev = sqrt(2 / (fan_in + fan_out))
+                initializer = tf.keras.initializer.GlorotNormal(seed = 1)
+                tf.Variable(initializer, shape = ())
+        .metrics
+            .CategoricalAccuracy()
+                train_accuracy = tf.keras.metrics.CategoricalAccuracy()
+                train_accuracy.reset_states()
+                train_accuracy.update_state(minibatch_Y, tf.transpose(Z3))  
+    .sigmoid()
+    .softmax()
+    .GradientTape()
+        record sequence of operations as you compute during forward prop and then revisit ops in reverse to compute backprop
+
+            .gradient(cost , trainable_variables)    
+
+            Example  
+                def train_step():
+                    with tf.GradientTape() as tape:
+                        cost = w ** 2 - 10 * w + 25
+                    trainable_variables = [w]
+                    grads = tape.gradient(cost, trainable_variables)
+                    optimizer.apply_gradients(zip(grads, trainable_variables))    
+    .math
+        .add()
+    .linalg
+        .matmul()
+
+    .one_hot(labels, depth, axis = 0)
+    .cast("...", tf.float32)
+    .rehape(tensor, shape)         
+    .matmul()
+    .add()
+    .reduce_rum()
+    .transpose()
+    .zeros()
+    .ones()
+           

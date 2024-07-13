@@ -1,0 +1,155 @@
+Numerical Python
+
+import numpy as np
+
+np
+    ndarray:    
+        array object. homogeneous, row-major ordering: arrays specified as sequence of rows
+        adding two np arrays -> element-wise operation. x**2 done element-wise
+        
+    indexing:
+        x[row][col]
+        x[row, col]                                 element
+        x[row]                                      row
+        x[:, col]                                   column
+        x[row1:row4]                                multiple sliced rows    array[start:end:step]   
+        x[:, col1:col4]                             multiple sliced cols    a == a[:] == a[::]
+        x[[row0, row2]]                             multiple select rows by giving list of indexes
+        x[:, [col1, col3]]                          multiple select columns
+        x[[row1, row2], [col1, col2]]               -> np.array([A[row1, col1], A[row2, col2]])     # when supplied with two indexing lists _. provide pairs of i, j indices for a series of entries therefore pairs of list must have the same length
+        x[[row1, row3]][:, [col1, col2]]            submatrix with row1, row3 and col0, col2 elements
+        x[1:4:2, 0:3:2]                             submatrix using slicing and step notation
+        x[np.ix_([1, 3], [0, 2, 3])]                submatrix using np.ix_
+        
+        boolean indexing:
+                keep_rows = np.zeros(x.shape[0], bool)  -> array([False, False, False, False])
+                keep_rows[[1, 3]] = True
+                keep_cols = np.zeros(x.shape[1], bool)
+                keep_cols[[0, 2, 3]] = True
+                idx_bool = np.ix_(keep_rows, keep_cols)
+                idx_mixed = np.ix_([1, 3], keep_cols)
+            x[idx_bool]                             submatrix
+            x[keep_rows]                            rows selected
+            x[:, keep_cols]                         columns selected
+    
+        attributes:
+            x.ndim      int                             # number of dimensions
+            x.dtype     datatype associated with array  # type dtype object() 
+            x.shape     type tuple (row, columns)       # dimensions
+            x.size      int                             # total number of elements
+            x.itemsize  int                             # size of each element in bytes
+            x.nbytes    int                             # total number of bytes
+            x.base      None/obj                        # returns if ndarray object a view/reference to some original ndarray
+            x.T         transpose                       # transposed array
+    
+        methods:
+                axis = 0 -> rows sum -> return one row
+                axis = 1 -> columns sum -> return one column
+                keepdims -> avoid rank 1 arrays (n,)
+            
+            .reshape(row, col)/reshape((row, col))    return array with new shape
+            .copy()
+            .view()
+            
+            .sum()
+            .cumsum()                          # cumulative sum along axis
+            .mean()
+            .std()
+            .var()
+            .max()
+            .min()
+            .argmin()                                 # indices of the minimum values along axis
+            .argmax()                                 # indices of the maximum values along axis
+            .transpose()
+        broadcasting:
+            vector * scalar -> vector
+            
+
+
+    .array(): returns `ndarray` - array object 
+        x = np.array(array_like_object, dtype=datatype)
+                .array([[1, 2], [3, 4]], float)     
+                .np.array(['Welcome to Math for ML!'])  -> dtype -> <U23    23-character (23) unicode string (`U`) on a little-endian architecture (`<`)
+    .arange([start], stop, [step])    [start, stop) evenly spaced values within interval. Similar to Python's range(). Mainly used for integers
+    .linspace(start, stop, num)       [start, stop], num number of evenly spaced numbers over specified interval. default dtype = np.float64
+    .zeros(shape)                     returns a new array of given shape, filled with zeros
+    .ones(shape)                      returns a new array of given shape, filled with ones
+    .empty(shape)                     returns a new array of given shape, without initializing entries
+    
+    .shape(x)     returns the shape of x
+    .reshape()    np.reshape(x, (-1, 1))  # -1 means automatically inferred
+    .flatten()    returns a copy of the array collapsed into one dimension
+    .ravel()      returns a flattened array
+    .squeeze()    removes redundant dimensions
+    .ix_()        extract submatrix using lists by creating intermediate mesh object
+                    idx = np.ix_([1, 3], [0, 2, 3]) -> (array([[1], [3]]), array([[0, 2, 3]])) -> idx[0].shape (2, 1), idx[1].shape (1, 3)
+                    x[idx]
+    .hstack()
+    .vstack()
+    .hsplit()
+
+    
+    .isnan()        test element-wise for NaN and return boolean array
+    .unique()       returns unique values 
+    .all()          tests whether all array elements along a given axis evaluate to True
+    .any()          tests whether any array elements along a given axis evaluate to True
+
+    .abs(x)        
+    .maximum()
+    .minimum()
+    .sum(x, axis, keepdims)
+    .sqrt()
+    .mean()
+    .std()
+    .var()          ddof = n
+    .corrcoef(x, y=None)    computes correlation matrix. Off-diagonal elements give correlation 
+
+    .sin()
+    .cos()
+    .tan()
+    .exp()          returns the exponential of all elements in the input array
+    .log()          returns the natural logarithm of all elements in the input array
+    .power(x, n)    x^n
+    .multiply()     `*`     element-wise
+    .dot()          matrix-matrix, matrix-vector, vector-vector product
+    .inner()        inner product of two arrays
+    .outer()        outer product of two arrays
+    .matmul()       `@`     matrix product of two arrays
+
+    .nan           attribute -> not a number
+
+np.random:
+            module, Generator Class
+            refer np random quickstart
+                np.random.normal()
+        .seed()
+        
+        .default_rng(seed=None)      returns Generator. Default constructor for `Generator`. We can give custom seed if we want or when np.random called default seed used.
+                rng = np.random.default_rng(seed=42)
+                rng.normal() (ideally)
+            
+            .permutation()                              randomly permute sequence. Returns ndarray
+            .shuffle()                                  shuffle in-place. Return 
+            .choice()                                   random sample from 1-d array        rng.choice([0, np.nan], p=[0.8, 0.2], size=x.shape)
+            
+            .rand()                                     uniform distribution
+            .randn()                                    normal distribution
+            .random()                                   [0.0, 1.0] floats. Continuous uniform distribution
+            .normal(loc, scale, size)                                   [0, 1]. mean = 0, std = 1.          
+            .standard_normal(size)      
+            .randn(dim1, dim2, dim3)                    
+            .integers(low, high, size)
+            .binomial()
+
+
+np.linalg:
+        module for linear algebra functions 
+    
+    .norm(x, ord=None, axis=None, keepdims=False)    returns the matrix or vector norm
+    .inv(x)                                          returns the multiplicative inverse of a matrix
+    .det(x)                                          returns the determinant of a matrix
+    .eig(x)                                          computes the eigenvalues and right eigenvectors of a square array
+    .svd(x)                                          singular value decomposition
+    .qr(x)                                           QR decomposition of a matrix
+    .solve(a, b)                                     solves the linear equation ax = b for x
+    .lstsq(a, b)                                     computes the least-squares solution to the equation ax = b

@@ -1,0 +1,17 @@
+import json:
+		json.dump(data, file)	# writing to JSON file
+		data = json.load(file)	# reading	
+import csv:
+    csv_reader = csv.reader(file)		# for row in csv_reader:
+    csv.writer(file).writewrows(data)
+    csv_reader = csv.DictReader(file)	# for row in csv_reader:
+
+import pandas as pd:
+    df = pd.read_excel('example.xlsx')
+    df = pd.DataFrame(data)			# df.to_excel('example.xlsx', index = False)
+
+import xml.etree.ElementTree as ET
+    tree = ET.parse('example.xml')
+    root = tree.getroot()			# for child in root: print(child.tag, child.attrib)
+    
+    csv.DictWriter(file, fieldnames).writeheader().writerows(data)

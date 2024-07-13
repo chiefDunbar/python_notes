@@ -1,0 +1,9 @@
+import datetime:
+	from datetime import datetime, timedelta; my_time = datetime.now(); my_time = datetime(1952, 12, 24); my_time.day
+		date.strftime(format); 
+			print(my_time.strftime("%d/%m/%Y %H:%M")) 
+		strptime
+	timedelta object: 
+		difference = midsummer - time_now; days, seconds, microseconds;  one_week = timedelta(days=7)
+import difflib: 
+	get_close_matches()

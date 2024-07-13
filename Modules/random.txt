@@ -1,0 +1,16 @@
+import random: 
+
+	.seed(a = None)	-> initializes with a else current system time used
+	.random() 	-> [0.0, 1.0)
+	.uniform(a, b) 	-> [a, b]
+	.randint(a, b)	-> [a, b]
+	.randrange(start, stop[, step])	
+	.getrandbits(k)	-> random integer with k random bits	
+	.choice(collection)	-> random element from non-empty sequence
+	.choices(population, weights = None, *, cum_weights = None, k = 1)	-> k elements from chosen population with optional weights
+	.sample(population, k)	-> k unique elements from population
+	.shuffle(x[, random])	-> in place
+	.normalvariate(mu, sigma)	-> float normal distribution
+	.gauss(mu, sigma)	-> slightly faster but less accurate
+	.expovariate(lambd)	-> exponential distribution
+	.lognormvariate(mu, sigma)	-> log-normal distribution
