@@ -18,7 +18,8 @@ pd
         df = pd.DataFrame(data = array_like_object, columns = list_of_col_names)                            # arrays can be multidientional
         
         Indexing:
-                df.column_name              access columns
+                df.column_name              access columns -> 
+                df.comlumn_name.values      returns array of values
                 df["col_name"]              returns pd.core.series.Series
                 df[["mpg", "horsepower"]]   DataFrame with corresponding set of columns
                 df[:3]              [0,3) subset of rows 
@@ -34,6 +35,7 @@ pd
         Attributes:
 
                 .shape            (row, col)
+                .size
                 .columns          columns names. returns .Index object
                 .index            default -> rows labled using integers
 
@@ -41,8 +43,10 @@ pd
                 .set_index("col_name")    re-name rows using contents of given column and can access rows of df by 'col_name' using loc[] method
                 .loc[]                    access rows, cols by index name (single, list, slice) or boolean array                                    -> .loc[idx_80, ['mpg', 'cylinders']]
                 .iloc[]                   integer-location based indexing row, col (single, list, slice) or boolean array                                         -> .iloc[[3, 4], [0, 2, 4]]
-                
+                .head()
+                .samples()
                 .dropna()                 remove rows with nan vals. returns new DataFrame if inplace not True
+                .reset_index(drop=)       
                 
                 .describe()               numberical summary of each column     df[['mpg', 'weight']].describe() or df['mpg'].describe()
     .Series(data, index, dtype, name)
@@ -61,6 +65,8 @@ pd
     
     .read_csv(file_path, sep, delimiter, na_values)
         if seperator, delimiter, null values encoded differently then put in keyword arguments. returns DataFrame or TextParser
+    
+    .concat([dataframes], axis=)
 
     .plotting
         .scatter_matrix()

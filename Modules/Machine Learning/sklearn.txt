@@ -4,7 +4,6 @@ import sklearn
 import sklearn
     
     .linear_model
-
         .Lasso()
         .Ridge()
         .LogisticRegressionCV()
@@ -12,12 +11,35 @@ import sklearn
                 clf = sklearn.linear_model.LogisticRegressionCV()
                 clf.fit(X, Y)
                 clf.predict(X)
+    
+    .naive_bayes
+        .MultinomialNB()
 
     .preprocessing
         .StandardScaler()
             .fit_transform(X)
+    
+    .model_selection
+        .test_train_split(X, y, test_size=, random_state=) -> X_train, X_test, y_train, y_test
+        .KFold(n_splits=5, *, shuffle=False, random_state=None)
+            kf = ..
+            kf.get_n_splits()
+        .StratifiedKFold(n_splits=5, *, shuffle=False, random_state=None)
+        .cross_validate()
+        .cross_val_score(estimator, X, y, scoring=, cv=)
+    
+    .feature_extraction
+        .text
+            .TfidfVectorizer(smooth_idf=)
+                .fit_transform()
+            .TfidfTransformer
+    
+    .feature_selection
+    
     .pipeline 
         .make_pipeline
+    
     .datasets
-        
         .load_iris()
+
+    

@@ -1,0 +1,8 @@
+import torch
+
+torch
+    .cuda
+        .is_available()  True/False
+        .get_device_name()
+        
+    .device('cuda'/'cpu')   returns device

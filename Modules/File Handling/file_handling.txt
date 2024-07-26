@@ -15,3 +15,11 @@ import xml.etree.ElementTree as ET
     root = tree.getroot()			# for child in root: print(child.tag, child.attrib)
     
     csv.DictWriter(file, fieldnames).writeheader().writerows(data)
+
+import zipfile
+    zipfile.
+        ZipFile()
+            .extractall()
+                import zipfile
+                with zipfile.ZipFile('data.zip') as zip:
+                zip.extractall('data')

@@ -1,0 +1,4 @@
+import requests
+
+requests.
+    .get(url: str, params: dict=None, **kwargs) -> requests.Response()
