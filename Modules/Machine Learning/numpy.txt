@@ -1,4 +1,4 @@
-Numerical Python
+	Numerical Python
 
 import numpy as np
 
@@ -87,13 +87,14 @@ np
     .hstack()
     .vstack()
     .hsplit()
-
+    .pad(array, pad_width=, mode=, constant_values=)
     
     .isnan()        test element-wise for NaN and return boolean array
     .unique()       returns unique values 
     .all()          tests whether all array elements along a given axis evaluate to True
     .any()          tests whether any array elements along a given axis evaluate to True
-
+    .where()        np.where(preds >= 0.5, 1, 0)
+            
     .abs(x)        
     .maximum()
     .minimum()

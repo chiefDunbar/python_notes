@@ -28,6 +28,12 @@ import sklearn
         .cross_validate()
         .cross_val_score(estimator, X, y, scoring=, cv=)
     
+    .metrics
+        .accuracy_score
+        .roc_curve(y_true, preds)
+            
+        .auc
+
     .feature_extraction
         .text
             .TfidfVectorizer(smooth_idf=)
